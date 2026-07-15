@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func main2() {
 	var TestDefaultValue int      // 变量声明
 	fmt.Println(TestDefaultValue) // 使用变量
 	var a int = 8
@@ -35,5 +35,5 @@ func main() {
 	fmt.Printf("v=%g,v=%e", v, v) // %g默认6位小数，%e科学计数法 .2f的话就只有小数点后两位
 	u := 123
 	i := 456
-	fmt.Printf("u=%[1]d, i=%[2]d,i=%[2]d, u=%[1]d\n",u,i)
+	fmt.Printf("u=%[1]d, i=%[2]d,i=%[2]d, u=%[1]d\n", u, i)
 }
