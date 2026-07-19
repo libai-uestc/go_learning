@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func main4() {
 	var pi float32 = 3.14
 	const pi_1 float32 = 3.1415926
 	pi = 3.26
