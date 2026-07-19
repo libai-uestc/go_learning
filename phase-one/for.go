@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func main9() {
 	var sum int
 	for a, b := 9, 30; a >= 0 && b > a; a, b = a-1, b/2 {
 		sum += a
