@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func main6() {
 	type User struct {
 		Name string
 		Age  int
