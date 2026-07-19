@@ -15,7 +15,7 @@ func (user User) hello() {
 	fmt.Println("My Name is", user.Name)
 }
 
-func main() {
+func main5() {
 	var u User
 	u = User{Id: 10, Score: 100, Name: "libai", address: "China"} //Score可以不赋值，默认是0值，整数或浮点数不赋值默认是0，布尔默认是false，字符串默认是空字符串
 	fmt.Println(u.Name)
