@@ -89,7 +89,7 @@ func fall_through(age int) {
 	}
 }
 
-func main() {
+func main11() {
 	switch_basic()
 	switch_expression()
 	switch_condition()
