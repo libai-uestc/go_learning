@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func main() {
+func main20() {
 	c, d := 3, 5
 	arg1(c, d)
 	a, b := 10, 100
