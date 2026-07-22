@@ -69,3 +69,28 @@ func cast() {
 	i = int(ft)
 	fmt.Printf("i=%d\n", i)
 }
+
+func main() {
+	var test_int int = 100
+	var test_char string = "李"
+	var test_rune rune = '白'
+	var i_to_string string = strconv.Itoa(test_int)
+	var err error
+	i_to_string = strconv.FormatInt(int64(test_int), 10)
+	test_int, err = strconv.Atoi(test_char)
+	if err != nil {
+		fmt.Println("转换失败")
+	}
+	var int_64 int64 = 100
+	int_64, err = strconv.ParseInt(test_char, 10, 64)
+	var num_str string = "2024"
+	test_int, err = strconv.Atoi(num_str)
+	if err == nil {
+		fmt.Println("转换成功！")
+	}
+	rune_to_string := string(test_rune)
+	fmt.Printf("%c -> %q", test_rune, rune_to_string)
+	fmt.Printf("final: %s%s", test_char, rune_to_string)
+	_ = i_to_string
+	_ = int_64
+}

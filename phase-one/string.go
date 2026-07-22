@@ -87,7 +87,7 @@ func string_op() {
 	fmt.Printf("end with die %t\n", strings.HasSuffix(s, "die."))    //后缀
 }
 
-func main() {
+func main22() {
 	asign_string()
 	string_impl()
 	string_join()
