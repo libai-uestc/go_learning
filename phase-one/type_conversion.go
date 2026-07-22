@@ -70,7 +70,7 @@ func cast() {
 	fmt.Printf("i=%d\n", i)
 }
 
-func main() {
+func main23() {
 	var test_int int = 100
 	var test_char string = "李"
 	var test_rune rune = '白'
