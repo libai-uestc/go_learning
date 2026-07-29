@@ -83,3 +83,13 @@ value (第一个返回值): 这是 key 对应的实际数据。如果 key 存在
 exists (第二个返回值): 这是一个布尔值（true 或 false），在 Go 语言中大家习惯把它命名为 ok 或者 exists。如果 key 在 map 中确确实实存在，它就是 true；如果不存在，它就是 false。
 
 函数递归必须有退出条件
+
+const(
+    Sunday Weekday = iota //0
+    Monday //1
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
+    Saturday // 6
+)
