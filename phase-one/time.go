@@ -10,7 +10,7 @@ const (
 	DATE_FMT = "20060102"
 )
 
-func main() {
+func main25() {
 	fmt.Println("start")
 	time.Sleep(3 * time.Second)
 	fmt.Println("bye-bye")
