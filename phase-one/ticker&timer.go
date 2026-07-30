@@ -29,7 +29,7 @@ func timer() {
 	fmt.Printf("现在时间是%s\n", time.Now().Format(TIME_FMT))
 }
 
-func main() {
+func main26() {
 	// ticker()
 	timer()
 }
