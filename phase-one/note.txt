@@ -93,3 +93,7 @@ const(
     Friday
     Saturday // 6
 )
+
+panicInfo是全局变量，定义好的
+
+如果你打算：通过recover来避免进程直接结束的话，你应该把这个recover放在函数的最前面，让它最先注册，进程就不会结束

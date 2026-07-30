@@ -45,7 +45,7 @@ func timeOfWork(arg int) int {
 	}
 }
 
-func main() {
+func main27() {
 	basicDefer()
 	defer_exe_time()
 	timeOfWork(9)
