@@ -57,7 +57,7 @@ func soo() {
 	}()
 }
 
-func main() {
+func main28() {
 	// defer_panic()
 	soo()
 }
