@@ -68,7 +68,7 @@ func changeChan(ch chan bool) {
 	}
 }
 
-func main() {
+func main29() {
 	rangeChannel()
 	fmt.Println(strings.Repeat("*", 50))
 
