@@ -48,7 +48,7 @@ func SumI(args ...any) int {
 
 // }
 
-func main() {
+func main34() {
 	fmt.Println()
 	fmt.Println(1)
 	fmt.Println("1")
