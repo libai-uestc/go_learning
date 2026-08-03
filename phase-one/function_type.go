@@ -2,7 +2,7 @@ package main
 
 import "net/http"
 
-func main() {
+func main32() {
 	var f1, f2 func(a, b int, c string, d bool) (int, bool)
 	f1 = func(a, b int, c string, d bool) (int, bool) {
 		return a + b, d && c == "abc"
