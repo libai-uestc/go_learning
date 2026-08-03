@@ -33,7 +33,7 @@ type Interleave struct{}
 
 func (Interleave) Select(s []string) int { return f2(s) }
 
-func main() {
+func main33() {
 	cp := ConnectionPool{
 		Servers: []string{"127.0.0.1:1234", "127.0.0.1:5678"},
 		// LoadBalancer: RoundRobin{},

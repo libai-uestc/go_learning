@@ -121,3 +121,5 @@ type slice struct{
     len int
     cap int
 }
+
+%t打印布尔变量，%T打印一个变量的数据类型
