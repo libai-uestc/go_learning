@@ -54,7 +54,7 @@ func divide(a, b int) (int, error) {
 
 // 调函数后应该优先判断error是否为nil
 
-func main() {
+func main36() {
 	err2 := NewMyError("math", 101, "divide by zero")
 	fmt.Printf("%s\n", err2)
 	c, err := divide(5, 0)
