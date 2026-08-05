@@ -47,6 +47,6 @@ func scheduleTask() {
 	}
 }
 
-func main() {
+func main37() {
 	scheduleTask()
 }

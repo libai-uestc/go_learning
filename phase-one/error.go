@@ -7,6 +7,7 @@ import (
 
 var (
 	ErrNotFound = errors.New("not found error") // error变量名一般以Err开头
+	ErrServer   = errors.New("server error")
 )
 
 // 自定义error
