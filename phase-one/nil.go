@@ -51,7 +51,7 @@ func NewTP() *TP {
 	return nil
 }
 
-func main() {
+func main41() {
 	DifferentNil()
 	fmt.Println(strings.Repeat("*", 20))
 
