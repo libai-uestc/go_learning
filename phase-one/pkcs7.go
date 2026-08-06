@@ -27,7 +27,7 @@ func Unpadding(src []byte, blockSize int) ([]byte, error) {
 	return src[0 : srcLen-padLen], nil
 }
 
-func main() {
+func main39() {
 	src := []byte{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	fmt.Println(Padding(src, 8))
 	fmt.Println(Unpadding(Padding(src, 8), 8))
