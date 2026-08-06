@@ -76,7 +76,7 @@ func handler() int {
 
 }
 
-func main() {
+func main38() {
 	errorWrap()
 	fmt.Println(handler())
 }
