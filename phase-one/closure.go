@@ -86,19 +86,27 @@ func funcList() {
 }
 
 func main() {
-	fmt.Println(f())
-	fmt.Println(f())
+	fmt.Println(f()) //4
+	fmt.Println(f()) //4
 	fmt.Println()
-	af := addd()
-	fmt.Println(af())
-	fmt.Println(af())
+	af := addd()      //in addd func, address of a is 0x12431b234220
+	fmt.Println(af()) //in closure func, address of a is 0x12431b234220		4
+	fmt.Println(af()) //in closure func, address of a is 0x12431b234220		5
+	fmt.Println()     //
+	bf := addd()      //in addd func, address of a is 0x12431b234238
+	fmt.Println(bf()) //in closure func, address of a is 0x12431b234238     4
+	fmt.Println(bf()) //in closure func, address of a is 0x12431b234220		5
 	fmt.Println()
-	bf := addd()
-	fmt.Println(bf())
-	fmt.Println(bf())
-	fmt.Println()
-	funcList()
+	funcList() //in for loop, address of i is 0x12431b234250
+	// in for loop, address of i is 0x12431b234258
+	// in for loop, address of i is 0x12431b234260
+	// in closure func, address of i is 0x12431b234250
+	// 0
+	// in closure func, address of i is 0x12431b234258
+	// 1
+	// in closure func, address of i is 0x12431b234260
+	// 2
 
-	fmt.Println(fibonacci_seq(10))
-	forRange()
+	fmt.Println(fibonacci_seq(10)) //[1 1 2 3 5 8 13 21 34 55]
+	forRange()                     //2       3       1       4
 }
