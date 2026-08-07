@@ -44,5 +44,6 @@ func main() {
 	httpRPC(GetUserRequest{})
 
 	a := Apple[int32]{}
-	a.getBigger(3, 6)
+	b := a.getBigger(3, 6)
+	fmt.Println(b)
 }
