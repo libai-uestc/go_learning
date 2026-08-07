@@ -85,7 +85,7 @@ func funcList() {
 	}
 }
 
-func main() {
+func main42() {
 	fmt.Println(f()) //4
 	fmt.Println(f()) //4
 	fmt.Println()
