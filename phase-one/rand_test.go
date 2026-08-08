@@ -10,16 +10,28 @@ import (
 const MAX = 1e9
 
 func BenchmarkRand(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		rand.Intn(MAX)
 	}
 }
 
+// func BenchmarkRand(b *testing.B) {
+// 	for i := 0; i < b.N; i++ {
+// 		rand.Intn(MAX)
+// 	}
+// }
+
 func BenchmarkRandV2(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		randv2.IntN(MAX)
 	}
 }
+
+// func BenchmarkRandV2(b *testing.B) {
+// 	for i := 0; i < b.N; i++ {
+// 		randv2.IntN(MAX)
+// 	}
+// }
 
 func TestRand(t *testing.T) {
 	for i := 0; i < 5; i++ {
