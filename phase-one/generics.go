@@ -41,9 +41,10 @@ func httpRPC[T GetUserRequest | GetBookRequest](request T) {
 }
 
 func main() {
-	httpRPC(GetUserRequest{})
+	// httpRPC(GetUserRequest{})
 
-	a := Apple[int32]{}
-	b := a.getBigger(3, 6)
-	fmt.Println(b)
+	// a := Apple[int32]{}
+	// b := a.getBigger(3, 6)
+	// fmt.Println(b)
+	fmt.Println(100110 ^ 2)
 }
