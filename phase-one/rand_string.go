@@ -21,7 +21,7 @@ func RandString(n int) string {
 	return sb.String()
 }
 
-func main() {
+func main44() {
 	fmt.Println(RandString(10))
 	fmt.Println(RandString(10))
 	fmt.Println(RandString(10))
