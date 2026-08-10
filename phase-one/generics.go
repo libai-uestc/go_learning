@@ -40,7 +40,7 @@ func httpRPC[T GetUserRequest | GetBookRequest](request T) {
 	http.Post(url, "application/json", bytes.NewReader(bs))
 }
 
-func main() {
+func main43() {
 	// httpRPC(GetUserRequest{})
 
 	// a := Apple[int32]{}
