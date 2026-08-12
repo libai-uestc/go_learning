@@ -145,3 +145,10 @@ Comparable 定义了泛型允许传入的数据类型白名单，而 Transporter
 单测文件和原始文件放在同一个文件夹下
 单测文件package: xxx_test
 原始文件package: xxx
+
+所有的init()都在main()之前执行
+使用init()函数时，不要依赖外部的其他任何变量
+
+引入这个包的目的是为了执行这个包里的init()函数
+_ "net/http/pprof" //在线pprof
+_ "github.com/go-sql-driver/mysql" // 注册mysql驱动
