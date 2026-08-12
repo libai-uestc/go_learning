@@ -152,3 +152,5 @@ Comparable 定义了泛型允许传入的数据类型白名单，而 Transporter
 引入这个包的目的是为了执行这个包里的init()函数
 _ "net/http/pprof" //在线pprof
 _ "github.com/go-sql-driver/mysql" // 注册mysql驱动
+
+全局变量初始化完成后，才会执行init()函数

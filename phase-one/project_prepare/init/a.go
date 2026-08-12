@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	projectprepare "libai/go/basic/phase-one/project_prepare"
+	_ "net/http/pprof" // 在线pprof
+
+	_ "github.com/go-sql-driver/mysql" //注册mysql驱动
 )
 
 func InitLogger() {
