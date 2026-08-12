@@ -154,3 +154,9 @@ _ "net/http/pprof" //在线pprof
 _ "github.com/go-sql-driver/mysql" // 注册mysql驱动
 
 全局变量初始化完成后，才会执行init()函数
+
+go build ./project_prepare/init
+会生成一个init.exe
+go build -o abc.exe ./project_prepare/init
+会生成一个abc.exe
+在线上服务器就可以直接./abc.exe运行这个文件就可以了
