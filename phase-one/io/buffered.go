@@ -51,3 +51,36 @@ func append2(dest []byte, index int, src []byte) {
 		dest[index+i] = src[i]
 	}
 }
+
+// 向文件中写入内容。（大概率只是写入了缓冲，还没有真正写入磁盘）
+func (writer *BufferedFileWriter) WriteString(content string) {
+	writer.Write([]byte(content))
+}
+
+// 直接写文件
+func WriteDirect(outFile string) {
+	fout, err := os.OpenFile(outFile, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer fout.Close()
+
+	for i := 0; i < 10; i++ {
+		fout.WriteString(logText)
+	}
+}
+
+// 带缓存写文件
+func WriteWithBuffer(outFile string) {
+	fout, err := os.OpenFile(outFile, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer fout.Close()
+
+	writer := NewWriter(fout, 4096)
+	defer writer.Flush() // 最后，务必把缓冲里残留的内容写入磁盘
+	for i := 0; i < 10; i++ {
+		writer.WriteString(logText)
+	}
+}
