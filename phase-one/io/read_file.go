@@ -1,9 +1,11 @@
 package io
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func ReadFile() {
@@ -26,6 +28,25 @@ func ReadFile() {
 			n, err := fin.Read(buffer)
 			if n > 0 {
 				fmt.Println(buffer[0:n])
+			}
+			if err == io.EOF {
+				break
+			}
+		}
+	}
+}
+
+func ReadFileWithBuffer() {
+	if fin, err := os.Open("../data/verse.txt"); err != nil {
+		fmt.Printf("open file failed: %v\n", err)
+	} else {
+		defer fin.Close()
+		reader := bufio.NewReader(fin)
+		for {
+			line, err := reader.ReadString('\n')
+			if len(line) > 0 {
+				line = strings.TrimRight(line, "\n")
+				fmt.Println(line)
 			}
 			if err == io.EOF {
 				break

@@ -1,6 +1,7 @@
 package io
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 )
@@ -17,5 +18,18 @@ func WriteFile() {
 		fout.WriteString("\n")
 		fout.Write([]byte("天生我材必有用"))
 		fout.WriteString("\n")
+	}
+}
+
+func WriteFileWithBuffer() {
+	if fout, err := os.OpenFile("../data/verse.txt", os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0o666); err != nil {
+		fmt.Printf("open file failed: %s\n", err.Error())
+	} else {
+		defer fout.Close()
+		writer := bufio.NewWriter(fout)
+		writer.WriteString("李白\n")
+		writer.Write([]byte("长风破浪会有时\n"))
+		writer.WriteString("直挂云帆济沧海\n")
+		writer.Flush()
 	}
 }
