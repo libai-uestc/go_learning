@@ -160,3 +160,6 @@ go build ./project_prepare/init
 go build -o abc.exe ./project_prepare/init
 会生成一个abc.exe
 在线上服务器就可以直接./abc.exe运行这个文件就可以了
+
+读文件：os.open
+写文件：os.openfile
