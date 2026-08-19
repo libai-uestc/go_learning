@@ -163,3 +163,6 @@ go build -o abc.exe ./project_prepare/init
 
 读文件：os.open
 写文件：os.openfile
+
+channel类型的数据不支持序列化
+在Go语言中，双引号 `""` 用于表示解析转义字符的普通字符串，反引号 ```` 用于表示原样输出的多行原生字符串，而单引号 `''` 则用于表示单个字符的 Unicode 数值（rune）。
