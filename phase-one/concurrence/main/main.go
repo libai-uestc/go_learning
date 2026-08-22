@@ -9,7 +9,12 @@ func main() {
 	// concurrence.Atomic()
 	// concurrence.Lock()
 	// concurrence.ReentranceRLock(3)
-	concurrence.ReentranceWLock(3)
+	// concurrence.ReentranceWLock(3)
+	// concurrence.WLockExclusion()
+	// concurrence.RLockExclusion()
+	// concurrence.LockQueue()
+	// concurrence.ReadWriteRace()
+	concurrence.CollectionSafety()
 }
 
 // go run .\phase-one\concurrence\main\main.go
