@@ -17,7 +17,9 @@ func main() {
 	// concurrence.CollectionSafety()
 	// concurrence.ServiceMain()
 	// concurrence.TraverseChannel()
-	concurrence.Block()
+	// concurrence.Block()
+	concurrence.Broadcast()
+	// concurrence.
 }
 
 // go run .\phase-one\concurrence\main\main.go
