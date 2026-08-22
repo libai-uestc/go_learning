@@ -15,7 +15,8 @@ func main() {
 	// concurrence.LockQueue()
 	// concurrence.ReadWriteRace()
 	// concurrence.CollectionSafety()
-	concurrence.ServiceMain()
+	// concurrence.ServiceMain()
+	concurrence.TraverseChannel()
 }
 
 // go run .\phase-one\concurrence\main\main.go
