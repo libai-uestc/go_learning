@@ -19,9 +19,11 @@ func main() {
 	// concurrence.TraverseChannel()
 	// concurrence.Block()
 	// concurrence.Broadcast()
-	concurrence.CondSignal()
-	concurrence.ChannelSignal()
-	concurrence.CondBroadcast()
+	// concurrence.CondSignal()
+	// concurrence.ChannelSignal()
+	// concurrence.CondBroadcast()
+	// concurrence.ChannelBroadcast()
+	concurrence.DealMassFile("data/biz_log")
 }
 
 // go run .\phase-one\concurrence\main\main.go
