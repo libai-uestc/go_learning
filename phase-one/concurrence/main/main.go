@@ -18,8 +18,10 @@ func main() {
 	// concurrence.ServiceMain()
 	// concurrence.TraverseChannel()
 	// concurrence.Block()
-	concurrence.Broadcast()
-	// concurrence.
+	// concurrence.Broadcast()
+	concurrence.CondSignal()
+	concurrence.ChannelSignal()
+	concurrence.CondBroadcast()
 }
 
 // go run .\phase-one\concurrence\main\main.go
