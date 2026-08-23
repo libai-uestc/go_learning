@@ -25,7 +25,9 @@ func main() {
 	// concurrence.ChannelBroadcast()
 	// concurrence.DealMassFile("data/biz_log")
 	// concurrence.QpsLimit()
-	concurrence.RoutineLimit()
+	// concurrence.RoutineLimit()
+	concurrence.ListenMultiWay()
+	concurrence.SelectBlock()
 }
 
 // go run .\phase-one\concurrence\main\main.go
