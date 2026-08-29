@@ -181,3 +181,6 @@ AES使用的key长度是16个字节
 
 `key[:]`等价于 `key[0:16]`
 把数组转成了切片
+
+生成自签名证书：
+生成证书  openssl req -x509 -new -nodes -key data/rsa_private_key.pem -subj "/CN=localhost" -addext "subjectAltName=DNS:localhost" -days 3650 -out data/server.crt
