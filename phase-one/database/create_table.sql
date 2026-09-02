@@ -18,7 +18,7 @@ CREATE TABLE if not exists `student` (
     `score` float NOT NULL DEFAULT '0' COMMENT '考试成绩',
     `enrollment` date NOT NULL COMMENT '入学时间',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_name` (`name`)
+    UNIQUE KEY `idx_name` (`name`),
     KEY `idx_location` (`province`,`city`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='学员基本信息';
 

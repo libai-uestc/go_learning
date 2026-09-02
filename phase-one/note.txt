@@ -190,3 +190,5 @@ go get github.com/ecies/go/v2
 select name,password from user where name!='' and password!='' order by create_time limit 5,3;
 limit后面的5表示，满足条件的前5行记录给跳过。3表示只要后面这三行，只要6,7,8行。后面还有第9行，第10行都不要
 limit n等价于limit 0,n
+
+go mod tidy
