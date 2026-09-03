@@ -18,10 +18,7 @@ func Insert(db *sql.DB) {
 	lastId, err := res.LastInsertId() // ID自增，用过的id（即使对应的行已delete）不会重复使用。如果使用单个INSERT语句将多行插入到表中，则LastInsertId是第一条数据使用的id
 	CheckError(err)
 	fmt.Printf("after insert last id %d\n", lastId)
-	rows, err := res.LastInsertId() // ID自增，用过的id（即使对应的行已delete）不会重复使用。如果使用单个INSERT语句将多行插入到表中，则LastInsertId是第一条数据使用的id
-	CheckError(err)
-	fmt.Printf("after insert last id %d\n", lastId)
-	rows, err = res.RowsAffected() // 插入2行，所以影响了2行
+	rows, err := res.RowsAffected() // 插入2行，所以影响了2行
 	CheckError(err)
 	fmt.Printf("insert affect %d row\n", rows)
 }
@@ -29,7 +26,7 @@ func Insert(db *sql.DB) {
 // replace 插入（覆盖）数据
 func Replace(db *sql.DB) {
 	// 由于name字段上有唯一索引，insert重复的name会报错。而使用replace会先删除，再插入
-	res, err := db.Exec("replace into student (name,province,city,enrollment) values ('小明','深圳','深圳','2026-09-01'),('小红','上海','上海','2026-09-01')")
+	res, err := db.Exec("replace into student (name,province,city,enrollment) values ('小明','深圳','深圳','2026-09-01'),('小红','上海','上海','2026-09-03')")
 	CheckError(err)
 	lastId, err := res.LastInsertId() // ID自增，用过的id（即使对应的行已delete）不会重复使用
 	CheckError(err)
@@ -41,7 +38,7 @@ func Replace(db *sql.DB) {
 
 func Update(db *sql.DB) {
 	// 不同的city加不同的分数
-	res, err := db.Exec("update student set score=score+10 where city='浦东新区'")
+	res, err := db.Exec("update student set score=score+10 where city='上海'")
 	CheckError(err)
 	lastId, err := res.LastInsertId() // 0，仅插入操作才会给LastInsertId赋值
 	CheckError(err)
@@ -106,7 +103,7 @@ func QueryByPage(db *sql.DB, pageSize, page int) (total int, data []*User) {
 }
 
 func Query(db *sql.DB) map[int]*User {
-	rows, err := db.Query("select id,name,city,score,enrollment from student where enrollment >=20250130 limit 5")
+	rows, err := db.Query("select id,name,city,score,enrollment from student where enrollment >=20250130 limit 5") // 等价于limit 0,5
 	CheckError(err)
 	defer rows.Close()
 	rect := make(map[int]*User, 10)

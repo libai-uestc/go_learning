@@ -23,9 +23,9 @@ func init() {
 	*/
 	// db, err := sql.Open("mysql", "tester:123456@tcp(localhost:3306)/test?charset=utf8mb4&parseTime=True&loc=Local")
 	//db可以并发使用
-	db, err := sql.Open("mysql", "tester:123456@tcp(localhost:3306)/test?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai")
+	db, err = sql.Open("mysql", "tester:123456@tcp(localhost:3306)/test?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai")
 	database.CheckError(err)
-	defer db.Close()
+	// defer db.Close()
 }
 
 func TestInsert(t *testing.T) {
@@ -41,7 +41,7 @@ func TestMassInsert(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	database.MassInsertStmt(db)
+	database.Update(db)
 }
 
 func TestSelect(t *testing.T) {
