@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	myhttp "libai/go/basic/phase-one/web"
 	"net/http"
 	"strings"
 	// "os"
@@ -33,9 +34,17 @@ func HttpObservation(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(strings.Repeat("*", 60))
 }
 
+func Get(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.URL)
+	params := myhttp.ParseUrlParams(r.URL.RawQuery)
+	fmt.Fprintf(w, "your name is %s, age is %s\n", params["name"], params["age"])
+	fmt.Println(strings.Repeat("*", 60))
+}
+
 func main() {
 	// 定义路由
 	http.HandleFunc("/obs", HttpObservation)
+	http.HandleFunc("/get", Get)
 
 	// 启动Http Server
 	if err := http.ListenAndServe("127.0.0.1:5678", nil); err != nil {
