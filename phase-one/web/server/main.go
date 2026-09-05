@@ -66,7 +66,7 @@ func HugeBody(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(strings.Repeat("*", 60))
 }
 
-func main() {
+func main1() {
 	// 定义路由
 	http.HandleFunc("/obs", HttpObservation)
 	http.HandleFunc("/get", Get)
