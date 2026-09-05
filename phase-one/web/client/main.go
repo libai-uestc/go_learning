@@ -116,9 +116,44 @@ func Student() {
 	}
 }
 
+func Head() {
+	fmt.Println(strings.Repeat("*", 30) + "HEAD" + strings.Repeat("*", 30))
+	//HEAD类似于GET，但HEAD方法只能取到响应头，不能取到响应体
+	if resp, err := http.Head("http://127.0.0.1:5678/get"); err != nil {
+		panic(err)
+	} else {
+		defer resp.Body.Close()
+		fmt.Printf("response status: %s\n", resp.Status)
+		fmt.Println("response body:")
+		io.Copy(os.Stdout, resp.Body)
+		os.Stdout.WriteString("\n\n")
+	}
+
+	if resp, err := http.Head("https://www.baidu.com"); err != nil {
+		panic(err)
+	} else {
+		defer resp.Body.Close()
+		fmt.Printf("response status: %s\n", resp.Status)
+		fmt.Println("response body:")
+		io.Copy(os.Stdout, resp.Body)
+		os.Stdout.WriteString("\n\n")
+	}
+
+	if resp, err := http.Head("http://127.0.0.1:5678/strange"); err != nil {
+		panic(err)
+	} else {
+		defer resp.Body.Close()
+		fmt.Printf("response status: %s\n", resp.Status)
+		fmt.Println("response body:")
+		io.Copy(os.Stdout, resp.Body)
+		os.Stdout.WriteString("\n\n")
+	}
+}
+
 func main() {
 	// HttpObservation()
 	// Get()
 	// HugeBody()
-	Student()
+	// Student()
+	Head()
 }
