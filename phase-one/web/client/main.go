@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	myhttp "libai/go/basic/phase-one/web"
@@ -55,7 +56,38 @@ func Get() {
 	}
 }
 
+func HugeBody() {
+	fmt.Println(strings.Repeat("*", 30) + "GET HUGE BODY" + strings.Repeat("*", 30))
+	if resp, err := http.Get("http://127.0.0.1:5678/stream"); err != nil {
+		panic(err)
+	} else {
+		reader := bufio.NewReader(resp.Body)
+		for {
+			if bs, err := reader.ReadBytes('\n'); err == nil {
+				fmt.Print(string(bs)) // bs末尾包含了\n
+			} else {
+				if err == io.EOF {
+					if len(bs) > 0 { // 即使读到末尾了，本次read也可能读出了内容
+						fmt.Print(string(bs))
+					}
+					break
+				} else {
+					if err == io.EOF {
+						if len(bs) > 0 { // 即使读到末尾了，本次read也可能读出了内容
+							fmt.Print(string(bs))
+						}
+						break
+					} else {
+						fmt.Printf("read response body error: %s\n", err)
+					}
+				}
+			}
+		}
+	}
+}
+
 func main() {
-	HttpObservation()
-	Get()
+	// HttpObservation()
+	// Get()
+	HugeBody()
 }
