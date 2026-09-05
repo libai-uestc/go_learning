@@ -186,7 +186,7 @@ func Animation(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
+func main2() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /chunk", ChunkedTransfer) // http://127.0.0.1:5678/chunk
 	mux.HandleFunc("GET /server_source_event", SSE)

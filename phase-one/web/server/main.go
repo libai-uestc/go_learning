@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"io"
 	myhttp "libai/go/basic/phase-one/web"
 	"net/http"
@@ -66,12 +67,30 @@ func HugeBody(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(strings.Repeat("*", 60))
 }
 
-func main1() {
+func Student(w http.ResponseWriter, r *http.Request) {
+	// 解析指定文件生产模版对象
+	tmpl, err := template.ParseFiles("./phase-one/web/server/student.tmpl") // 相对于执行go run的路径
+	if err != nil {
+		fmt.Println("create template failed:", err)
+		return
+	}
+	type Student struct {
+		Id     int
+		Name   string
+		Gender string
+		Score  int
+	}
+	// 利用给定数据渲染模板，并将结果写入w
+	students := []Student{{1, "张三", "男", 80}, {2, "李四", "女", 40}, {3, "王五", "女", 50}}
+	tmpl.Execute(w, students)
+}
+
+func main() {
 	// 定义路由
 	http.HandleFunc("/obs", HttpObservation)
 	http.HandleFunc("/get", Get)
 	http.HandleFunc("/stream", HugeBody)
-
+	http.HandleFunc("/student", Student)
 	// 启动Http Server
 	if err := http.ListenAndServe("127.0.0.1:5678", nil); err != nil {
 		panic(err)
