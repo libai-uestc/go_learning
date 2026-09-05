@@ -7,6 +7,7 @@ import (
 	myhttp "libai/go/basic/phase-one/web"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -61,24 +62,40 @@ func HugeBody() {
 	if resp, err := http.Get("http://127.0.0.1:5678/stream"); err != nil {
 		panic(err)
 	} else {
-		reader := bufio.NewReader(resp.Body)
-		for {
-			if bs, err := reader.ReadBytes('\n'); err == nil {
-				fmt.Print(string(bs)) // bs末尾包含了\n
-			} else {
-				if err == io.EOF {
-					if len(bs) > 0 { // 即使读到末尾了，本次read也可能读出了内容
-						fmt.Print(string(bs))
-					}
-					break
-				} else {
-					if err == io.EOF {
-						if len(bs) > 0 { // 即使读到末尾了，本次read也可能读出了内容
-							fmt.Print(string(bs))
+		headerkey := http.CanonicalHeaderKey("content-length") // Content-Length
+		if ls, exists := resp.Header[headerkey]; exists {
+			if l, err := strconv.Atoi(ls[0]); err == nil {
+				haveRead := 0
+				reader := bufio.NewReader(resp.Body)
+				for {
+					if bs, err := reader.ReadBytes('\n'); err == nil {
+						haveRead += len(bs)
+						progress := float64(haveRead) / float64(l)
+						fmt.Printf("进度 %.2f%%, 内容 %s", 100*progress, string(bs)) // bs末尾包含了\n
+						// fmt.Print(string(bs)) // bs末尾包含了\n
+						if progress >= 0.5 {
+							resp.Body.Close()
+							return
 						}
-						break
 					} else {
-						fmt.Printf("read response body error: %s\n", err)
+						if err == io.EOF {
+							if len(bs) > 0 { // 即使读到末尾了，本次read也可能读出了内容
+								// fmt.Print(string(bs))
+								haveRead += len(bs)
+								progress := float64(haveRead) / float64(l)
+								fmt.Printf("进度 %.2f%%, 内容 %s", 100*progress, string(bs)) // bs末尾包含了\n
+							}
+							break
+						} else {
+							if err == io.EOF {
+								if len(bs) > 0 { // 即使读到末尾了，本次read也可能读出了内容
+									fmt.Print(string(bs))
+								}
+								break
+							} else {
+								fmt.Printf("read response body error: %s\n", err)
+							}
+						}
 					}
 				}
 			}

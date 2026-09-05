@@ -194,3 +194,12 @@ limit n等价于limit 0,n
 go mod tidy
 
 先设置响应头，再设置状态码，第三步再设置响应体
+
+响应头不管有多少个条目，它是一次性先发给客户端的；响应体，可以分批发送
+
+显示下载进度
+fin,err := os.Open("a.jpg")
+stat := fin.Stat()
+fileSize:=stat.Size()
+
+响应头实际上是一个map，可以根据key来获得对应的value

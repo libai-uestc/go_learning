@@ -5,7 +5,9 @@ import (
 	"io"
 	myhttp "libai/go/basic/phase-one/web"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 	// "os"
 )
 
@@ -45,11 +47,20 @@ func Get(w http.ResponseWriter, r *http.Request) {
 func HugeBody(w http.ResponseWriter, r *http.Request) {
 	line := []byte("Heavy is the head who wears the crown.\n")
 	const R = 10 // line重复发送几次
-
+	totalSize := R * len(line)
+	w.Header().Add("content-length", strconv.Itoa(totalSize))
+	flusher, ok := w.(http.Flusher)
+	if !ok {
+		http.Error(w, "不支持flush", http.StatusInternalServerError)
+		return
+	}
 	for i := 0; i < R; i++ {
 		if _, err := w.Write(line); err != nil { // 即使不显式Flush()，Write()的内容足够多(大几K)时也会触发Flush()
 			fmt.Printf("%d send error: %s\n", i, err)
 			break
+		} else {
+			flusher.Flush() // 强制write to tcp
+			time.Sleep(time.Second)
 		}
 	}
 	fmt.Println(strings.Repeat("*", 60))
