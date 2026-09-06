@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -41,6 +42,36 @@ func Get(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL)
 	params := myhttp.ParseUrlParams(r.URL.RawQuery)
 	fmt.Fprintf(w, "your name is %s, age is %s\n", params["name"], params["age"])
+	fmt.Println(strings.Repeat("*", 60))
+}
+
+func Post(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	if ct, exists := r.Header["Content-Type"]; exists {
+		switch ct[0] {
+		case "text/plain":
+			io.Copy(w, r.Body) // 直接把请求体作为响应体。io.Copy内部会去根据情况调用Sendfile、Splice等零拷贝策略
+		case "application/json":
+			body, err := io.ReadAll(r.Body)
+			if err == nil {
+				params := make(map[string]string, 10)
+				if err := json.Unmarshal(body, &params); err == nil {
+					fmt.Fprintf(w, "your name is %s, age is %s\n", params["name"], params["age"])
+				}
+			} else {
+				fmt.Println("read request body error", err)
+			}
+		case "application/x-www-form-unlencoded":
+			body, err := io.ReadAll(r.Body)
+			if err == nil {
+				fmt.Println("request body", string(body))
+				params := myhttp.ParseUrlParams(string(body))
+				fmt.Fprintf(w, "your name is %s, age is %s\n", params["name"], params["age"])
+			} else {
+				fmt.Println("read request body error", err)
+			}
+		}
+	}
 	fmt.Println(strings.Repeat("*", 60))
 }
 
@@ -91,6 +122,7 @@ func main() {
 	http.HandleFunc("/get", Get)
 	http.HandleFunc("/stream", HugeBody)
 	http.HandleFunc("/student", Student)
+	http.HandleFunc("/post", Post)
 	// 启动Http Server
 	if err := http.ListenAndServe("127.0.0.1:5678", nil); err != nil {
 		panic(err)
