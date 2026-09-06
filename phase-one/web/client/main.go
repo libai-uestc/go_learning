@@ -12,6 +12,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func HttpObservation() {
@@ -144,19 +145,6 @@ func Post() {
 
 }
 
-func Student() {
-	fmt.Println(strings.Repeat("*", 30) + "GET" + strings.Repeat("*", 30))
-	if resp, err := http.Get("http://127.0.0.1:5678/student"); err != nil { // 直接在浏览器里访问http://127.0.0.1:5678/student
-		panic(err)
-	} else {
-		defer resp.Body.Close()
-		fmt.Printf("response status: %s\n", resp.Status)
-		fmt.Println("response body:")
-		io.Copy(os.Stdout, resp.Body) // 两个io数据流的拷贝
-		os.Stdout.WriteString("\n\n")
-	}
-}
-
 func Head() {
 	fmt.Println(strings.Repeat("*", 30) + "HEAD" + strings.Repeat("*", 30))
 	//HEAD类似于GET，但HEAD方法只能取到响应头，不能取到响应体
@@ -191,11 +179,75 @@ func Head() {
 	}
 }
 
+func Cookie() {
+	fmt.Println(strings.Repeat("*", 30) + "COOKIE" + strings.Repeat("*", 30))
+	request, err := http.NewRequest(http.MethodGet, "http://127.0.0.1:5678/cookie", nil)
+	if err != nil {
+		panic(err)
+	}
+	request.Header.Add("User-Agent", "Mozilla/5.0 (x64)") // 伪造User-Agent，爬虫经常这么干
+	request.Header.Add("user-role", "vip")                // header的key和value可以随意设置
+	// 可以添加多个Cookie
+	request.AddCookie(
+		&http.Cookie{
+			Name:   "auth",
+			Value:  "pass",
+			Domain: "localhost",
+			Path:   "/",
+		},
+	)
+	// 所有的cookie都会放到一个http request header中。Cookie: [auth:pass;money=100dollar]
+	request.AddCookie(&http.Cookie{
+		Name:  "money",
+		Value: "100",
+	})
+	// 设置请求超时
+	client := &http.Client{
+		Timeout: 500 * time.Millisecond,
+	}
+	// 发起请求
+	if resp, err := client.Do(request); err != nil {
+		fmt.Println(err)
+	} else {
+		defer resp.Body.Close()
+		fmt.Println("response header:")
+		for k, v := range resp.Header {
+			fmt.Println(k, v)
+		}
+		// 其实可以直接通过resp.Cookies()获得*http.Cookie，没必要自己解析
+		if values, exists := resp.Header["Set-Cookie"]; exists {
+			for _, value := range values {
+				cookie, _ := http.ParseSetCookie(value)
+				fmt.Println("Name:", cookie.Name)
+				fmt.Println("Value:", cookie.Value)
+				fmt.Println("Domain:", cookie.Domain)
+				fmt.Println("MaxAge:", cookie.MaxAge)
+				fmt.Println(strings.Repeat("-", 50))
+			}
+		}
+		os.Stdout.WriteString("\n\n")
+	}
+}
+
+func Student() {
+	fmt.Println(strings.Repeat("*", 30) + "GET" + strings.Repeat("*", 30))
+	if resp, err := http.Get("http://127.0.0.1:5678/student"); err != nil { // 直接在浏览器里访问http://127.0.0.1:5678/student
+		panic(err)
+	} else {
+		defer resp.Body.Close()
+		fmt.Printf("response status: %s\n", resp.Status)
+		fmt.Println("response body:")
+		io.Copy(os.Stdout, resp.Body) // 两个io数据流的拷贝
+		os.Stdout.WriteString("\n\n")
+	}
+}
+
 func main() {
 	// HttpObservation()
 	// Get()
 	// HugeBody()
 	// Student()
 	// Head()
-	Post()
+	// Post()
+	Cookie()
 }

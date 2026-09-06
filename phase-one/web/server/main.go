@@ -98,6 +98,29 @@ func HugeBody(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(strings.Repeat("*", 60))
 }
 
+func Cookie(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("request header:")
+	for key, value := range r.Header {
+		fmt.Println(key, value)
+	}
+	// 其实可以直接通过r.Cookies()获得*http.Cookie，没必要自己解析
+	if values, exists := r.Header["Cookie"]; exists {
+		cookies, _ := http.ParseCookie(values[0]) // 多个request cookie全在values[0]里
+		fmt.Println("request cookie:")
+		for _, cookie := range cookies {
+			fmt.Printf("%s: %s\n", cookie.Name, cookie.Value)
+		}
+		fmt.Println(strings.Repeat("*", 60))
+	}
+
+	// Set-Cookie
+	expiration := time.Now().Add(30 * 24 * time.Hour)
+	cookie1 := http.Cookie{Name: "csrftoken", Value: "abcd", Expires: expiration, Domain: "localhost", Path: "/"}
+	cookie2 := http.Cookie{Name: "jwt", Value: "1234", Expires: expiration, Domain: "localhost", Path: "/"}
+	http.SetCookie(w, &cookie1)
+	http.SetCookie(w, &cookie2)
+}
+
 func Student(w http.ResponseWriter, r *http.Request) {
 	// 解析指定文件生产模版对象
 	tmpl, err := template.ParseFiles("./phase-one/web/server/student.tmpl") // 相对于执行go run的路径
@@ -123,6 +146,7 @@ func main() {
 	http.HandleFunc("/stream", HugeBody)
 	http.HandleFunc("/student", Student)
 	http.HandleFunc("/post", Post)
+	http.HandleFunc("/cookie", Cookie)
 	// 启动Http Server
 	if err := http.ListenAndServe("127.0.0.1:5678", nil); err != nil {
 		panic(err)
