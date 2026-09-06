@@ -229,6 +229,22 @@ func Cookie() {
 	}
 }
 
+func Restful() {
+	fmt.Println(strings.Repeat("*", 30) + "GET RESTful" + strings.Repeat("*", 30))
+	if resp, err := http.Get("http://127.0.0.1:5678/get/lb/18"); err != nil {
+		panic(err)
+	} else {
+		defer resp.Body.Close()
+		fmt.Printf("response status: %s\n", resp.Status)
+		fmt.Println("response body:")
+		// io.Copy(os.Stdout,resp.Body) // 两个io数据流的拷贝
+		if body, err := io.ReadAll(resp.Body); err == nil {
+			fmt.Print(string(body))
+		}
+		os.Stdout.WriteString("\n\n")
+	}
+}
+
 func Student() {
 	fmt.Println(strings.Repeat("*", 30) + "GET" + strings.Repeat("*", 30))
 	if resp, err := http.Get("http://127.0.0.1:5678/student"); err != nil { // 直接在浏览器里访问http://127.0.0.1:5678/student
@@ -249,5 +265,6 @@ func main() {
 	// Student()
 	// Head()
 	// Post()
-	Cookie()
+	// Cookie()
+	Restful()
 }
