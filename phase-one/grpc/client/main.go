@@ -50,6 +50,8 @@ func main() {
 			grpc.MaxCallSendMsgSize(1024),
 		),
 		// grpc.WithUnaryInterceptor(timer),
+		// grpc.WithUnaryInterceptor(timer),
+		grpc.WithChainUnaryInterceptor(timer, counter),
 		// grpc.WithChainUnaryInterceptor(timer, counter, devKey), // 链式拦截器
 		// grpc.WithTransportCredentials(creds),                   // TLS数据加密
 	)
@@ -70,7 +72,7 @@ func main() {
 			ctx := context.Background()
 			// 准备request
 			request := grpc_service.QueryStudentRequest{
-				Id:   123,
+				Id:   456,
 				Name: "libai",
 			}
 			// 第一次调用要进行TLS握手，会很慢

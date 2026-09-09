@@ -12,15 +12,41 @@ type Student struct {
 	grpc_service.UnimplementedStudentServer
 }
 
+// func (s Student) QueryStudent(ctx context.Context, query *grpc_service.QueryStudentRequest) (resp *grpc_service.QueryStudentResponse, err error) {
+// 	fmt.Printf("request: %+v\n", query)
+// 	resp = &grpc_service.QueryStudentResponse{
+// 		Students: []*grpc_model.Student{
+// 			{Id: 123, Name: "李白", Age: 18},
+// 			{Id: 456, Name: "libai", Age: 28},
+// 		},
+// 	}
+// 	return
+// }
+
 func (s Student) QueryStudent(ctx context.Context, query *grpc_service.QueryStudentRequest) (resp *grpc_service.QueryStudentResponse, err error) {
-	fmt.Printf("request: %+v\n", query)
-	resp = &grpc_service.QueryStudentResponse{
-		Students: []*grpc_model.Student{
-			{Id: 123, Name: "李白", Age: 18},
-			{Id: 456, Name: "libai", Age: 28},
-		},
+	fmt.Printf("收到客户端请求: %+v\n", query)
+
+	// 1. 模拟数据库里的所有数据
+	allStudents := []*grpc_model.Student{
+		{Id: 123, Name: "李白", Age: 18},
+		{Id: 456, Name: "libai", Age: 28},
 	}
-	return
+
+	// 2. 准备一个切片存放匹配的结果
+	var matchedStudents []*grpc_model.Student
+
+	// 3. 根据客户端传来的 query.Id 进行过滤
+	for _, stu := range allStudents {
+		if stu.Id == query.Id {
+			matchedStudents = append(matchedStudents, stu)
+		}
+	}
+
+	// 4. 返回过滤后的结果
+	resp = &grpc_service.QueryStudentResponse{
+		Students: matchedStudents,
+	}
+	return resp, nil
 }
 
 // Server streaming RPC

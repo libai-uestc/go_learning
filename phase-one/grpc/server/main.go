@@ -61,7 +61,8 @@ func main() {
 	// 	grpc.Creds(creds), // TLS数据加密
 	// )
 	server := grpc.NewServer(
-		grpc.UnaryInterceptor(timer),
+		// grpc.UnaryInterceptor(timer),
+		grpc.ChainUnaryInterceptor(timer, counter),
 	)
 	// 注册服务的具体实现，可以注册多个服务
 	grpc_service.RegisterStudentServer(server, Student{})
