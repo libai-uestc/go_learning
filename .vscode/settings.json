@@ -1,7 +1,0 @@
-{
-    "protoc": {
-        "options": [
-            "--proto_path=${workspaceRoot}/phase-one/grpc/idl"
-        ]
-    }
-}
