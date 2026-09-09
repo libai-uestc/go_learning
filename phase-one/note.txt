@@ -203,3 +203,6 @@ stat := fin.Stat()
 fileSize:=stat.Size()
 
 响应头实际上是一个map，可以根据key来获得对应的value
+
+grpc
+要么使用proto追求极致的效率，要是想可读性好，就直接使用标准库的Json

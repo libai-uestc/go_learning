@@ -1,0 +1,15 @@
+syntax="proto3";
+
+package idl.model;
+
+option go_package = "idl/model;grpc_model";
+
+message student {
+    string name = 2;
+    int64 id = 1;
+    repeated string locations = 4;
+    map<string,float> scores = 3;
+    bool gender = 5;
+    int32 age = 6;
+    float score = 7;
+}
