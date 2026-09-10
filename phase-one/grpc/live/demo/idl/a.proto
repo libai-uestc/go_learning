@@ -1,0 +1,22 @@
+syntax="proto3";
+
+package idl.service;
+
+option go_package="idl/service;user_service";
+
+message LoginRequest{
+    string name=5;
+    string password=2;
+}
+
+message LoginResponse{
+    int32 code=1;
+    string msg=2;
+}
+
+service user{
+    rpc Login(LoginRequest) returns (LoginResponse);
+}
+
+// cd .\phase-one\grpc\live\
+// protoc --go_out=./demo --proto_path=./demo/idl a.proto

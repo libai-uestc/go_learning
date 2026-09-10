@@ -206,3 +206,7 @@ fileSize:=stat.Size()
 
 grpc
 要么使用proto追求极致的效率，要是想可读性好，就直接使用标准库的Json
+
+RPC通用参数传递方案：
+http--header
+grpc--context

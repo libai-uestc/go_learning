@@ -1,0 +1,9 @@
+syntax="proto3";
+
+option go_package="idl/service;user_service";
+
+import "a.proto";
+
+message B{
+    idl.service.LoginRequest age=1;
+}

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"google.golang.org/grpc"
-	// "google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 	grpc_service "libai/go/basic/phase-one/grpc/idl/service"
 	"net"
@@ -49,21 +49,21 @@ func main() {
 		panic(err)
 	}
 
-	// creds, err := credentials.NewServerTLSFromFile("data/server.crt", "data/rsa_private_key.pem")
-	// if err != nil {
-	// 	panic(err)
-	// }
+	creds, err := credentials.NewServerTLSFromFile("data/server.crt", "data/rsa_private_key.pem")
+	if err != nil {
+		panic(err)
+	}
 
 	// 创建server
-	// server := grpc.NewServer(
-	// 	// grpc.UnaryInterceptor(timer),
-	// 	grpc.ChainUnaryInterceptor(timer, counter, devKey),
-	// 	grpc.Creds(creds), // TLS数据加密
-	// )
 	server := grpc.NewServer(
 		// grpc.UnaryInterceptor(timer),
-		grpc.ChainUnaryInterceptor(timer, counter),
+		grpc.ChainUnaryInterceptor(timer, counter, devKey),
+		grpc.Creds(creds), // TLS数据加密
 	)
+	// server := grpc.NewServer(
+	// 	// grpc.UnaryInterceptor(timer),
+	// 	grpc.ChainUnaryInterceptor(timer, counter),
+	// )
 	// 注册服务的具体实现，可以注册多个服务
 	grpc_service.RegisterStudentServer(server, Student{})
 	// 启动server

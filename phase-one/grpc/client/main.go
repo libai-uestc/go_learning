@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"io"
 	grpc_service "libai/go/basic/phase-one/grpc/idl/service"
-	"sync"
+	// "sync"
 
-	// "log"
+	"log"
 	"time"
 
 	"google.golang.org/grpc"
-	// "google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
 )
@@ -37,10 +37,10 @@ func devKey(ctx context.Context, method string, req, reply any, cc *grpc.ClientC
 }
 
 func main() {
-	// creds, err := credentials.NewClientTLSFromFile("data/server.crt", "")
-	// if err != nil {
-	// 	log.Fatalf("Failed to generate credentials %v", err)
-	// }
+	creds, err := credentials.NewClientTLSFromFile("data/server.crt", "")
+	if err != nil {
+		log.Fatalf("Failed to generate credentials %v", err)
+	}
 	// 连接到服务端
 	conn, err := grpc.NewClient(
 		"localhost:5678", // 跟证书里的域名保持一致
@@ -51,50 +51,52 @@ func main() {
 		),
 		// grpc.WithUnaryInterceptor(timer),
 		// grpc.WithUnaryInterceptor(timer),
-		grpc.WithChainUnaryInterceptor(timer, counter),
-		// grpc.WithChainUnaryInterceptor(timer, counter, devKey), // 链式拦截器
-		// grpc.WithTransportCredentials(creds),                   // TLS数据加密
+		// grpc.WithChainUnaryInterceptor(timer, counter),
+		grpc.WithChainUnaryInterceptor(timer, counter, devKey), // 链式拦截器
+		grpc.WithTransportCredentials(creds),                   // TLS数据加密
 	)
 	if err != nil {
 		fmt.Printf("dial failed: %s", err)
 		return
 	}
 
-	const C = 3
-	wg := sync.WaitGroup{}
-	wg.Add(C)
-	for i := 0; i < C; i++ {
-		go func() {
-			defer wg.Done()
-			// 一个*grpc.ClientConn可以被多个Client公用--多路复用
-			client := grpc_service.NewStudentClient(conn)
-			// 准备context
-			ctx := context.Background()
-			// 准备request
-			request := grpc_service.QueryStudentRequest{
-				Id:   456,
-				Name: "libai",
-			}
-			// 第一次调用要进行TLS握手，会很慢
-			resp, err := client.QueryStudent(ctx, &request, grpc.MaxCallRecvMsgSize(1024))
-			if err != nil {
-				fmt.Printf("rpc error: %s\n", err)
-			} else {
-				fmt.Printf("response: %+v\n", resp)
-			}
-
-			// 从第二次调用开始，就不需要TLS握手了，会很快
-			// ctx2, cancel := context.WithTimeout(ctx, 1000*time.Millisecond) // 调用超时
-			// defer cancel()
-			// resp, err = client.QueryStudent(ctx2, &request, grpc.MaxCallRecvMsgSize(1024)) // // ctx1已经超时了，很快换成ctx2
-			// if err != nil {
-			// 	fmt.Printf("rpc error: %s\n", err)
-			// } else {
-			// 	fmt.Printf("response: %+v\n", resp)
-			// }
-		}()
+	// const C = 3
+	// wg := sync.WaitGroup{}
+	// wg.Add(C)
+	// for i := 0; i < C; i++ {
+	// 	go func() {
+	// 		defer wg.Done()
+	// 一个*grpc.ClientConn可以被多个Client公用--多路复用
+	client := grpc_service.NewStudentClient(conn)
+	// 准备context
+	ctx := context.Background()
+	// 准备request
+	request := grpc_service.QueryStudentRequest{
+		Id:   456,
+		Name: "libai",
 	}
-	wg.Wait()
+	// 第一次调用要进行TLS握手，会很慢
+	resp, err := client.QueryStudent(ctx, &request, grpc.MaxCallRecvMsgSize(1024))
+	if err != nil {
+		fmt.Printf("rpc error: %s\n", err)
+	} else {
+		fmt.Printf("response: %+v\n", resp)
+	}
+
+	// 从第二次调用开始，就不需要TLS握手了，会很快
+	ctx2, cancel := context.WithTimeout(ctx, 1000*time.Millisecond) // 调用超时
+	defer cancel()
+	resp, err = client.QueryStudent(ctx2, &request, grpc.MaxCallRecvMsgSize(1024)) // // ctx1已经超时了，很快换成ctx2
+	if err != nil {
+		fmt.Printf("rpc error: %s\n", err)
+	} else {
+		fmt.Printf("response: %+v\n", resp)
+	}
+	// 	}()
+	// }
+	// wg.Wait()
+
+	streaming(client)
 }
 
 func streaming(client grpc_service.StudentClient) {
